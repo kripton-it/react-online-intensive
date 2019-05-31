@@ -8,3 +8,5 @@ rules:
     - 2
   quotes:
     - "double"
+  object-curly-spacing:
+    - "always"
