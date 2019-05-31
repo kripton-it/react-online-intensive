@@ -3,17 +3,18 @@ import React, { Component } from "react";
 import { hot } from "react-hot-loader";
 
 //Instruments
+import avatar from "theme/assets/lisa";
 import Feed from "./../../components/Feed";
-import StatusBar from "./../../components/StatusBar";
+
+const options = {
+  currentUserFirstName: "Lisa",
+  currentUserLastName: "Simpson",
+  avatar: avatar
+};
 
 @hot(module)
 export default class App extends Component {
   render() {
-    return (
-      <>
-        <StatusBar />
-        <Feed />
-      </>
-    );
+    return <Feed {...options} />;
   }
 }
