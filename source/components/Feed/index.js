@@ -14,7 +14,7 @@ export default class Feed extends Component {
     const { feed } = Styles;
     return (
       <section className={feed}>
-        <StatusBar />
+        <StatusBar {...this.props} />
         <Composer avatar={avatar} currentUserFirstName={currentUserFirstName} />
         <Post {...this.props} />
       </section>
