@@ -10,13 +10,12 @@ import StatusBar from "../StatusBar";
 
 export default class Feed extends Component {
   render() {
-    const { avatar, currentUserFirstName } = this.props;
     const { feed } = Styles;
     return (
       <section className={feed}>
-        <StatusBar {...this.props} />
-        <Composer avatar={avatar} currentUserFirstName={currentUserFirstName} />
-        <Post {...this.props} />
+        <StatusBar />
+        <Composer />
+        <Post />
       </section>
     );
   }

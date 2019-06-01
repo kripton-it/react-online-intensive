@@ -5,6 +5,7 @@ import { hot } from "react-hot-loader";
 //Instruments
 import avatar from "theme/assets/lisa";
 import Feed from "./../../components/Feed";
+import { Provider } from "../../HOC";
 
 const options = {
   currentUserFirstName: "Lisa",
@@ -15,6 +16,10 @@ const options = {
 @hot(module)
 export default class App extends Component {
   render() {
-    return <Feed {...options} />;
+    return (
+      <Provider value={options}>
+        <Feed />
+      </Provider>
+    );
   }
 }
