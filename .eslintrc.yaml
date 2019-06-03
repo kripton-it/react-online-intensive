@@ -4,9 +4,3 @@ extends:
 
 rules:
   no-console: 0
-  indent:
-    - 2
-  quotes:
-    - "double"
-  object-curly-spacing:
-    - "always"
