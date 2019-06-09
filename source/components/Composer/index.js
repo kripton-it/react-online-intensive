@@ -16,6 +16,8 @@ export default class Composer extends Component {
         super();
         this._updateComment = this._updateComment.bind(this);
         this._submitComment = this._submitComment.bind(this);
+        this._handleFormSubmit = this._handleFormSubmit.bind(this);
+        this._submitOnEnter = this._submitOnEnter.bind(this);
     }
 
     state = {
@@ -28,9 +30,12 @@ export default class Composer extends Component {
         });
     }
 
-    _submitComment(event) {
+    _handleFormSubmit(event) {
         event.preventDefault();
+        this._submitComment();
+    }
 
+    _submitComment() {
         const { comment } = this.state;
         if (!comment) {
             return;
@@ -42,6 +47,14 @@ export default class Composer extends Component {
         this.setState({
             comment: '',
         });
+    }
+
+    _submitOnEnter(event) {
+        const isEnterKeyPressed = event.key === 'Enter';
+        if (isEnterKeyPressed) {
+            event.preventDefault();
+            this._submitComment();
+        }
     }
 
     render() {
@@ -58,11 +71,12 @@ export default class Composer extends Component {
                         />
                         <form
                             action = ''
-                            onSubmit = { this._submitComment }>
+                            onSubmit = { this._handleFormSubmit }>
                             <textarea
                                 placeholder = { `What's on your mind, ${currentUserFirstName}?` }
                                 value = { comment }
                                 onChange = { this._updateComment }
+                                onKeyPress = { this._submitOnEnter }
                             />
                             <input
                                 type = 'submit'
