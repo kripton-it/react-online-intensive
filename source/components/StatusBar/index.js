@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import Styles from './styles.m.css';
 
 // Components
-import { Consumer } from '../../HOC';
+import { Consumer } from './../../HOC/with-profile';
 
 export default class StatusBar extends Component {
     render() {
