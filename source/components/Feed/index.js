@@ -16,19 +16,16 @@ export default class Feed extends Component {
         super();
         this._createPost = this._createPost.bind(this);
         this._setPostsFetchingState = this._setPostsFetchingState.bind(this);
+        this._likePost = this._likePost.bind(this);
     }
 
     state = {
         posts: [
             {
-                id:      123,
-                comment: 'Hi there',
-                created: 1526825076849,
-            },
-            {
-                id:      253,
+                id:      '253',
                 comment: 'Приветик ✋',
                 created: 1526825076849,
+                likes:   [],
             },
         ],
         isPostFetching: false,
@@ -46,6 +43,7 @@ export default class Feed extends Component {
             id:      getUniqueID(),
             created: moment.utc(),
             comment,
+            likes:   [],
         };
 
         await delay(5000);
@@ -56,6 +54,39 @@ export default class Feed extends Component {
         }));
     }
 
+    async _likePost(id) {
+        this._setPostsFetchingState(true);
+
+        await delay(3000);
+
+        this._setPostsFetchingState(false);
+
+        const { currentUserFirstName, currentUserLastName } = this.props;
+        const { posts } = this.state;
+
+        const newPosts = posts.map((post) => {
+            if (post.id !== id) {
+                return post;
+            }
+
+            return {
+                ...post,
+                likes: [
+                    ...post.likes,
+                    {
+                        id:        getUniqueID(),
+                        firstName: currentUserFirstName,
+                        lastName:  currentUserLastName,
+                    },
+                ],
+            };
+        });
+
+        this.setState({
+            posts: newPosts,
+        });
+    }
+
     render() {
         const { feed } = Styles;
         const { posts, isPostFetching } = this.state;
@@ -63,6 +94,8 @@ export default class Feed extends Component {
             <Post
                 key = { post.id }
                 { ...post }
+                likePost = { this._likePost }
+                likes = { post.likes }
             />
         ));
 
