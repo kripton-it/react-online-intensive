@@ -11,11 +11,22 @@ import Like from '../Like';
 
 export default class Post extends Component {
     static propTypes = {
-        id:       string.isRequired,
-        comment:  string.isRequired,
-        created:  number.isRequired,
-        likePost: func.isRequired,
-        likes:    array.isRequired,
+        id:         string.isRequired,
+        comment:    string.isRequired,
+        created:    number.isRequired,
+        likePost:   func.isRequired,
+        likes:      array.isRequired,
+        deletePost: func.isRequired,
+    }
+
+    constructor() {
+        super();
+        this._handlePostDelete = this._handlePostDelete.bind(this);
+    }
+
+    _handlePostDelete() {
+        const { deletePost, id } = this.props;
+        deletePost(id);
     }
 
     render() {
@@ -30,7 +41,10 @@ export default class Post extends Component {
 
                     return (
                         <section className = { post }>
-                            <span className = { cross } />
+                            <span
+                                className = { cross }
+                                onClick = { this._handlePostDelete }
+                            />
                             <img src = { avatar } />
                             <a href = '#'>{ currentUserFullName }</a>
                             <time>{moment.unix(created).format('MMMM D h:mm:ss a')}</time>
