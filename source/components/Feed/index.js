@@ -41,7 +41,7 @@ export default class Feed extends Component {
         this._setPostsFetchingState(true);
         const post = {
             id:      getUniqueID(),
-            created: moment.utc(),
+            created: moment.now(),
             comment,
             likes:   [],
         };

@@ -19,7 +19,7 @@ export default class Post extends Component {
     }
 
     render() {
-        const { post } = Styles;
+        const { post, cross } = Styles;
         const { id, comment, created, likes, likePost } = this.props;
 
         return (
@@ -30,6 +30,7 @@ export default class Post extends Component {
 
                     return (
                         <section className = { post }>
+                            <span className = { cross } />
                             <img src = { avatar } />
                             <a href = '#'>{ currentUserFullName }</a>
                             <time>{moment.unix(created).format('MMMM D h:mm:ss a')}</time>
