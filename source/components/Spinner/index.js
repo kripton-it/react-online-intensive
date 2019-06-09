@@ -11,6 +11,6 @@ export default class Spinner extends Component {
         const { spinner } = Styles;
         const { isSpinning } = this.props;
 
-        return createPortal(<div className = { spinner } />, portal);
+        return isSpinning ? createPortal(<div className = { spinner } />, portal) : null;
     }
 }
