@@ -19,12 +19,7 @@ export default class Post extends Component {
         deletePost: func.isRequired,
     }
 
-    constructor() {
-        super();
-        this._handlePostDelete = this._handlePostDelete.bind(this);
-    }
-
-    _handlePostDelete() {
+    _handlePostDelete = () => {
         const { deletePost, id } = this.props;
         deletePost(id);
     }
@@ -47,13 +42,12 @@ export default class Post extends Component {
                             />
                             <img src = { avatar } />
                             <a href = '#'>{ currentUserFullName }</a>
-                            <time>{moment.unix(created).format('MMMM D h:mm:ss a')}</time>
+                            <time>{moment.unix(created).format('MMMM D YYYY h:mm:ss a')}</time>
                             <p>{ comment }</p>
                             <Like
                                 id = { id }
                                 likePost = { likePost }
                                 likes = { likes }
-                                { ...context }
                             />
                         </section>
                     );

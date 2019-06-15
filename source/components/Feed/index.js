@@ -6,43 +6,38 @@ import Styles from './styles.m.css';
 import { getUniqueID, delay } from '../../instruments';
 
 // Components
+import { withProfile } from './../../HOC/with-profile';
 import Composer from '../Composer';
 import Post from '../Post';
 import StatusBar from '../StatusBar';
 import Spinner from '../Spinner';
 
+@withProfile
 export default class Feed extends Component {
-    constructor() {
-        super();
-        this._createPost = this._createPost.bind(this);
-        this._setPostsFetchingState = this._setPostsFetchingState.bind(this);
-        this._likePost = this._likePost.bind(this);
-        this._deletePost = this._deletePost.bind(this);
-    }
-
     state = {
         posts: [
             {
                 id:      '253',
                 comment: 'Приветик ✋',
-                created: 1526825076849,
+                created: 1525076849,
                 likes:   [],
             },
         ],
         isPostFetching: false,
     }
 
-    _setPostsFetchingState(state) {
+    _setPostsFetchingState = (state) => {
         this.setState({
             isPostFetching: state,
         });
     }
 
-    async _createPost(comment) {
+    _createPost = async (comment) => {
         this._setPostsFetchingState(true);
         const post = {
             id:      getUniqueID(),
-            created: moment.now(),
+            /*created: moment.now() / 1000,*/
+            created: moment.utc() / 1000,
             comment,
             likes:   [],
         };
@@ -55,7 +50,7 @@ export default class Feed extends Component {
         }));
     }
 
-    async _likePost(id) {
+    _likePost = async (id) => {
         this._setPostsFetchingState(true);
 
         await delay(1500);
@@ -88,7 +83,7 @@ export default class Feed extends Component {
         });
     }
 
-    async _deletePost(id) {
+    _deletePost = async (id) => {
         this._setPostsFetchingState(true);
 
         await delay(1500);

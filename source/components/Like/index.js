@@ -6,6 +6,10 @@ import cx from 'classnames';
 // Instruments
 import Styles from './styles.m.css';
 
+// Components
+import { withProfile } from './../../HOC/with-profile';
+
+@withProfile
 class Like extends Component {
     static propTypes = {
         likePost: func.isRequired,
@@ -19,34 +23,23 @@ class Like extends Component {
         ),
     }
 
-    constructor() {
-        super();
-        this._getLikedByMe = this._getLikedByMe.bind(this);
-        this._getLikeStyle = this._getLikeStyle.bind(this);
-        this._likePost = this._likePost.bind(this);
-        this._showLikers = this._showLikers.bind(this);
-        this._hideLikers = this._hideLikers.bind(this);
-        this._getLikersList = this._getLikersList.bind(this);
-        this._getLikesDescription = this._getLikesDescription.bind(this);
-    }
-
     state = {
         showLikers: false,
     }
 
-    _showLikers() {
+    _showLikers = () => {
         this.setState({
             showLikers: true,
         });
     }
 
-    _hideLikers() {
+    _hideLikers = () => {
         this.setState({
             showLikers: false,
         });
     }
 
-    _getLikedByMe() {
+    _getLikedByMe = () => {
         const { currentUserFirstName, currentUserLastName, likes } = this.props;
 
         return likes.some(({ firstName, lastName }) => {
@@ -54,7 +47,7 @@ class Like extends Component {
         });
     }
 
-    _getLikeStyle() {
+    _getLikeStyle = () => {
         const likedByMe = this._getLikedByMe();
         const { icon, liked } = Styles;
 
@@ -63,12 +56,12 @@ class Like extends Component {
         });
     }
 
-    _likePost() {
+    _likePost = () => {
         const { likePost, id } = this.props;
         likePost(id);
     }
 
-    _getLikersList() {
+    _getLikersList = () => {
         const { showLikers } = this.state;
         if (!showLikers) {
             return null;
@@ -86,7 +79,7 @@ class Like extends Component {
         return <ul>{likersListJSX}</ul>;
     }
 
-    _getLikesDescription() {
+    _getLikesDescription = () => {
         const { currentUserFirstName, currentUserLastName, likes } = this.props;
 
         const likedByMe = this._getLikedByMe();
@@ -94,7 +87,7 @@ class Like extends Component {
         if (likes.length === 1 && likedByMe) {
             return `${currentUserFirstName} ${currentUserLastName}`;
         }
-        
+
         if (likedByMe) {
             return `You and ${ likes.length - 1 } other${likes.length > 2 ? 's' : ''}`;
         }

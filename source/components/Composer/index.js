@@ -5,37 +5,30 @@ import { func } from 'prop-types';
 import Styles from './styles.m.css';
 
 // Components
-import { Consumer } from './../../HOC/with-profile';
+import { withProfile } from './../../HOC/with-profile';
 
+@withProfile
 export default class Composer extends Component {
     static propTypes = {
         createPost: func.isRequired,
-    }
-
-    constructor() {
-        super();
-        this._updateComment = this._updateComment.bind(this);
-        this._submitComment = this._submitComment.bind(this);
-        this._handleFormSubmit = this._handleFormSubmit.bind(this);
-        this._submitOnEnter = this._submitOnEnter.bind(this);
     }
 
     state = {
         comment: '',
     }
 
-    _updateComment(event) {
+    _updateComment = (event) => {
         this.setState({
             comment: event.target.value,
         });
     }
 
-    _handleFormSubmit(event) {
+    _handleFormSubmit = (event) => {
         event.preventDefault();
         this._submitComment();
     }
 
-    _submitComment() {
+    _submitComment = () => {
         const { comment } = this.state;
         if (!comment) {
             return;
@@ -49,7 +42,7 @@ export default class Composer extends Component {
         });
     }
 
-    _submitOnEnter(event) {
+    _submitOnEnter = (event) => {
         const isEnterKeyPressed = event.key === 'Enter';
         if (isEnterKeyPressed) {
             event.preventDefault();
@@ -60,32 +53,32 @@ export default class Composer extends Component {
     render() {
         const { composer } = Styles;
         const { comment } = this.state;
+        const { avatar, currentUserFirstName } = this.props;
 
         return (
-            <Consumer>
-                {({ avatar, currentUserFirstName }) => (
-                    <section className = { composer }>
-                        <img
-                            alt = 'Avatar'
-                            src = { avatar }
-                        />
-                        <form
-                            action = ''
-                            onSubmit = { this._handleFormSubmit }>
-                            <textarea
-                                placeholder = { `What's on your mind, ${currentUserFirstName}?` }
-                                value = { comment }
-                                onChange = { this._updateComment }
-                                onKeyPress = { this._submitOnEnter }
-                            />
-                            <input
-                                type = 'submit'
-                                value = 'Post'
-                            />
-                        </form>
-                    </section>
-                )}
-            </Consumer>
+            <section className = { composer }>
+                <img
+                    alt = 'Avatar'
+                    src = { avatar }
+                />
+                <form
+                    action = ''
+                    onSubmit = { this._handleFormSubmit }>
+                    <textarea
+                        placeholder = { `What's on your mind, ${currentUserFirstName}?` }
+                        value = { comment }
+                        onChange = { this._updateComment }
+                        onKeyPress = { this._submitOnEnter }
+                    />
+                    <input
+                        type = 'submit'
+                        value = 'Post'
+                    />
+                </form>
+            </section>
         );
     }
 }
+
+// export default withProfile(Composer);
+// декоратор @withProfile в 10-й строке - полная альтернатива
