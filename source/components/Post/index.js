@@ -6,9 +6,10 @@ import moment from 'moment';
 import Styles from './styles.m.css';
 
 // Components
-import { Consumer } from './../../HOC/with-profile';
+import { withProfile } from './../../HOC/with-profile';
 import Like from '../Like';
 
+@withProfile
 export default class Post extends Component {
     static propTypes = {
         id:         string.isRequired,
@@ -26,33 +27,25 @@ export default class Post extends Component {
 
     render() {
         const { post, cross } = Styles;
-        const { id, comment, created, likes, likePost } = this.props;
+        const { id, comment, created, likes, likePost, avatar, currentUserFirstName, currentUserLastName } = this.props;
+        const currentUserFullName = `${ currentUserFirstName } ${ currentUserLastName }`;
 
         return (
-            <Consumer>
-                {(context) => {
-                    const { avatar, currentUserFirstName, currentUserLastName } = context;
-                    const currentUserFullName = `${ currentUserFirstName } ${ currentUserLastName }`;
-
-                    return (
-                        <section className = { post }>
-                            <span
-                                className = { cross }
-                                onClick = { this._handlePostDelete }
-                            />
-                            <img src = { avatar } />
-                            <a href = '#'>{ currentUserFullName }</a>
-                            <time>{moment.unix(created).format('MMMM D YYYY h:mm:ss a')}</time>
-                            <p>{ comment }</p>
-                            <Like
-                                id = { id }
-                                likePost = { likePost }
-                                likes = { likes }
-                            />
-                        </section>
-                    );
-                }}
-            </Consumer>
+            <section className = { post }>
+                <span
+                    className = { cross }
+                    onClick = { this._handlePostDelete }
+                />
+                <img src = { avatar } />
+                <a href = '#'>{ currentUserFullName }</a>
+                <time>{moment.unix(created).format('MMMM D YYYY h:mm:ss a')}</time>
+                <p>{ comment }</p>
+                <Like
+                    id = { id }
+                    likePost = { likePost }
+                    likes = { likes }
+                />
+            </section>
         );
     }
 }
