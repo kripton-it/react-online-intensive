@@ -38,10 +38,23 @@ export default class Feed extends Component {
                 }));
             }
         });
+
+        socket.on('remove', (postJSON) => {
+            const { data: removedPost, meta } = JSON.parse(postJSON);
+            const currentUserFullName = `${currentUserFirstName} ${currentUserLastName}`;
+            const metaFullName = `${meta.authorFirstName} ${meta.authorLastName}`;
+
+            if (currentUserFullName !== metaFullName) {
+                this.setState(({ posts }) => ({
+                    posts: posts.filter((post) => post.id !== removedPost.id),
+                }));
+            }
+        });
     }
 
     componentWillMount() {
         socket.removeListener('create');
+        socket.removeListener('remove');
     }
 
     _fetchPosts = async () => {
