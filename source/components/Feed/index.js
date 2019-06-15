@@ -42,11 +42,23 @@ export default class Feed extends Component {
         socket.on('remove', (postJSON) => {
             const { data: removedPost, meta } = JSON.parse(postJSON);
             const currentUserFullName = `${currentUserFirstName} ${currentUserLastName}`;
-            const metaFullName = `${meta.authorFirstName} ${meta.authorLastName}`;
+            const authorFullName = `${meta.authorFirstName} ${meta.authorLastName}`;
 
-            if (currentUserFullName !== metaFullName) {
+            if (currentUserFullName !== authorFullName) {
                 this.setState(({ posts }) => ({
                     posts: posts.filter((post) => post.id !== removedPost.id),
+                }));
+            }
+        });
+
+        socket.on('like', (postJSON) => {
+            const { data: updatedPost, meta } = JSON.parse(postJSON);
+            const currentUserFullName = `${currentUserFirstName} ${currentUserLastName}`;
+            const authorFullName = `${meta.authorFirstName} ${meta.authorLastName}`;
+
+            if (currentUserFullName !== authorFullName) {
+                this.setState(({ posts }) => ({
+                    posts: posts.map((post) => post.id === updatedPost.id ? updatedPost : post),
                 }));
             }
         });
@@ -55,6 +67,7 @@ export default class Feed extends Component {
     componentWillMount() {
         socket.removeListener('create');
         socket.removeListener('remove');
+        socket.removeListener('like');
     }
 
     _fetchPosts = async () => {
@@ -138,9 +151,8 @@ export default class Feed extends Component {
         const { feed } = Styles;
         const { posts, isPostFetching } = this.state;
         const postsJSX = posts.map((post) => (
-            <Catcher>
+            <Catcher key = { post.id }>
                 <Post
-                    key = { post.id }
                     { ...post }
                     deletePost = { this._deletePost }
                     likePost = { this._likePost }
