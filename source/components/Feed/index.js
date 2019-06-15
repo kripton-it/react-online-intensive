@@ -88,11 +88,16 @@ export default class Feed extends Component {
             isPostFetching: true,
         });
 
-        await delay(1500);
-        this._setPostsFetchingState(false);
+        await fetch(`${api}/${id}`, {
+            method:  'DELETE',
+            headers: {
+                Authorization: TOKEN,
+            },
+        });
 
         this.setState(({ posts }) => ({
-            posts: posts.filter((post) => post.id !== id),
+            posts:          posts.filter((post) => post.id !== id),
+            isPostFetching: false,
         }));
     }
 
