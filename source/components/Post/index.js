@@ -27,7 +27,16 @@ export default class Post extends Component {
 
     render() {
         const { post, cross } = Styles;
-        const { id, comment, created, likes, likePost, avatar, currentUserFirstName, currentUserLastName } = this.props;
+        const {
+            id,
+            comment,
+            created,
+            likes,
+            likePost,
+            avatar,
+            currentUserFirstName,
+            currentUserLastName,
+        } = this.props;
         const currentUserFullName = `${ currentUserFirstName } ${ currentUserLastName }`;
 
         return (

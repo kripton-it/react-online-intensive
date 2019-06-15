@@ -6,6 +6,7 @@ import Styles from './styles.m.css';
 import { getUniqueID, delay } from '../../instruments';
 
 // Components
+import Catcher from './../../components/Catcher';
 import { withProfile } from './../../HOC/with-profile';
 import Composer from '../Composer';
 import Post from '../Post';
@@ -98,13 +99,15 @@ export default class Feed extends Component {
         const { feed } = Styles;
         const { posts, isPostFetching } = this.state;
         const postsJSX = posts.map((post) => (
-            <Post
-                key = { post.id }
-                { ...post }
-                deletePost = { this._deletePost }
-                likePost = { this._likePost }
-                likes = { post.likes }
-            />
+            <Catcher>
+                <Post
+                    key = { post.id }
+                    { ...post }
+                    deletePost = { this._deletePost }
+                    likePost = { this._likePost }
+                    likes = { post.likes }
+                />
+            </Catcher>
         ));
 
         return (

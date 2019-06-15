@@ -2,10 +2,13 @@
 import React, { Component } from 'react';
 import { hot } from 'react-hot-loader';
 
-//Instruments
-import avatar from 'theme/assets/lisa';
+//Components
+import Catcher from './../../components/Catcher';
 import Feed from './../../components/Feed';
 import { Provider } from './../../HOC/with-profile';
+
+//Instruments
+import avatar from 'theme/assets/lisa';
 
 const options = {
     currentUserFirstName: 'Lisa',
@@ -17,9 +20,11 @@ const options = {
 export default class App extends Component {
     render() {
         return (
-            <Provider value = { options }>
-                <Feed />
-            </Provider>
+            <Catcher>
+                <Provider value = { options }>
+                    <Feed />
+                </Provider>
+            </Catcher>
         );
     }
 }
