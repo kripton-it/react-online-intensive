@@ -22,6 +22,11 @@ export default class Feed extends Component {
 
     componentDidMount() {
         this._fetchPosts();
+        this.refetch = setInterval(this._fetchPosts, 1000);
+    }
+
+    componentWillMount() {
+        clearInterval(this.refetch);
     }
 
     _fetchPosts = async () => {
