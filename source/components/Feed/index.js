@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import moment from 'moment';
 
 // Instruments
 import Styles from './styles.m.css';
 import { getUniqueID, delay } from '../../instruments';
-import { api } from '../../config/api';
+import { api, TOKEN } from '../../config/api';
 
 // Components
 import Catcher from './../../components/Catcher';
@@ -49,15 +48,18 @@ export default class Feed extends Component {
 
     _createPost = async (comment) => {
         this._setPostsFetchingState(true);
-        const post = {
-            id:      getUniqueID(),
-            /*created: moment.now() / 1000,*/
-            created: moment.utc() / 1000,
-            comment,
-            likes:   [],
-        };
 
-        await delay(1500);
+        const response = await fetch(api, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization:  TOKEN,
+            },
+            body: JSON.stringify({ comment }),
+        });
+
+        const { data: post } = await response.json();
+
         this._setPostsFetchingState(false);
 
         this.setState(({ posts }) => ({
