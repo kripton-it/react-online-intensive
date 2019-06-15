@@ -24,14 +24,10 @@ export default class Feed extends Component {
         this._fetchPosts();
     }
 
-    _setPostsFetchingState = (state) => {
-        this.setState({
-            isPostFetching: state,
-        });
-    }
-
     _fetchPosts = async () => {
-        this._setPostsFetchingState(true);
+        this.setState({
+            isPostFetching: true,
+        });
 
         const response = await fetch(api, {
             method: 'GET',
@@ -39,18 +35,19 @@ export default class Feed extends Component {
 
         const { data: posts } = await response.json();
 
-        this._setPostsFetchingState(false);
-
         this.setState({
             posts,
+            isPostFetching: false,
         });
     }
 
     _createPost = async (comment) => {
-        this._setPostsFetchingState(true);
+        this.setState({
+            isPostFetching: true,
+        });
 
         const response = await fetch(api, {
-            method: 'POST',
+            method:  'POST',
             headers: {
                 'Content-Type': 'application/json',
                 Authorization:  TOKEN,
@@ -60,48 +57,36 @@ export default class Feed extends Component {
 
         const { data: post } = await response.json();
 
-        this._setPostsFetchingState(false);
-
         this.setState(({ posts }) => ({
-            posts: [ post, ...posts ],
+            posts:          [ post, ...posts ],
+            isPostFetching: false,
         }));
     }
 
     _likePost = async (id) => {
-        this._setPostsFetchingState(true);
-
-        await delay(1500);
-
-        this._setPostsFetchingState(false);
-
-        const { currentUserFirstName, currentUserLastName } = this.props;
-        const { posts } = this.state;
-
-        const newPosts = posts.map((post) => {
-            if (post.id !== id) {
-                return post;
-            }
-
-            return {
-                ...post,
-                likes: [
-                    ...post.likes,
-                    {
-                        id:        getUniqueID(),
-                        firstName: currentUserFirstName,
-                        lastName:  currentUserLastName,
-                    },
-                ],
-            };
-        });
-
         this.setState({
-            posts: newPosts,
+            isPostFetching: true,
         });
+
+        const response = await fetch(`${api}/${id}`, {
+            method:  'PUT',
+            headers: {
+                Authorization: TOKEN,
+            },
+        });
+
+        const { data: likedPost } = await response.json();
+
+        this.setState(({ posts }) => ({
+            posts:          posts.map((post) => post.id === id ? likedPost : post),
+            isPostFetching: false,
+        }));
     }
 
     _deletePost = async (id) => {
-        this._setPostsFetchingState(true);
+        this.setState({
+            isPostFetching: true,
+        });
 
         await delay(1500);
         this._setPostsFetchingState(false);
