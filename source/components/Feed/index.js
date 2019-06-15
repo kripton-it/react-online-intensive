@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 
 // Instruments
 import Styles from './styles.m.css';
-import { getUniqueID, delay } from '../../instruments';
-import { api, TOKEN } from '../../config/api';
+import { api, TOKEN, GROUP_ID } from '../../config/api';
+import { socket } from '../../socket/init';
 
 // Components
 import Catcher from './../../components/Catcher';
@@ -21,12 +21,27 @@ export default class Feed extends Component {
     }
 
     componentDidMount() {
+        const { currentUserFirstName, currentUserLastName } = this.props;
+
         this._fetchPosts();
-        this.refetch = setInterval(this._fetchPosts, 1000);
+
+        socket.emit('join', GROUP_ID);
+
+        socket.on('create', (postJSON) => {
+            const { data: createdPost, meta } = JSON.parse(postJSON);
+            const currentUserFullName = `${currentUserFirstName} ${currentUserLastName}`;
+            const metaFullName = `${meta.authorFirstName} ${meta.authorLastName}`;
+
+            if (currentUserFullName !== metaFullName) {
+                this.setState(({ posts }) => ({
+                    posts: [ createdPost, ...posts ],
+                }));
+            }
+        });
     }
 
     componentWillMount() {
-        clearInterval(this.refetch);
+        socket.removeListener('create');
     }
 
     _fetchPosts = async () => {
