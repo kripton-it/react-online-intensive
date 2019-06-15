@@ -4,6 +4,7 @@ import moment from 'moment';
 // Instruments
 import Styles from './styles.m.css';
 import { getUniqueID, delay } from '../../instruments';
+import { api } from '../../config/api';
 
 // Components
 import Catcher from './../../components/Catcher';
@@ -16,20 +17,33 @@ import Spinner from '../Spinner';
 @withProfile
 export default class Feed extends Component {
     state = {
-        posts: [
-            {
-                id:      '253',
-                comment: 'Приветик ✋',
-                created: 1525076849,
-                likes:   [],
-            },
-        ],
+        posts:          [],
         isPostFetching: false,
+    }
+
+    componentDidMount() {
+        this._fetchPosts();
     }
 
     _setPostsFetchingState = (state) => {
         this.setState({
             isPostFetching: state,
+        });
+    }
+
+    _fetchPosts = async () => {
+        this._setPostsFetchingState(true);
+
+        const response = await fetch(api, {
+            method: 'GET',
+        });
+
+        const { data: posts } = await response.json();
+
+        this._setPostsFetchingState(false);
+
+        this.setState({
+            posts,
         });
     }
 

@@ -24,7 +24,6 @@ export default class Catcher extends Component {
     }
 
     render() {
-        console.log('catcher');
         const { error } = this.state;
         const { catcher } = Styles;
 

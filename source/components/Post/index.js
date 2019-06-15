@@ -34,10 +34,10 @@ export default class Post extends Component {
             likes,
             likePost,
             avatar,
-            currentUserFirstName,
-            currentUserLastName,
+            firstName,
+            lastName,
         } = this.props;
-        const currentUserFullName = `${ currentUserFirstName } ${ currentUserLastName }`;
+        const fullName = `${ firstName } ${ lastName }`;
 
         return (
             <section className = { post }>
@@ -46,7 +46,7 @@ export default class Post extends Component {
                     onClick = { this._handlePostDelete }
                 />
                 <img src = { avatar } />
-                <a href = '#'>{ currentUserFullName }</a>
+                <a href = '#'>{ fullName }</a>
                 <time>{moment.unix(created).format('MMMM D YYYY h:mm:ss a')}</time>
                 <p>{ comment }</p>
                 <Like
