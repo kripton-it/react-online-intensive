@@ -16,11 +16,17 @@ import StatusBar from '../StatusBar';
 import Spinner from '../Spinner';
 import Postman from '../Postman';
 
+const timeouts = {
+    COMPOSER: 1000,
+    POSTMAN:  1000,
+};
+
 @withProfile
 export default class Feed extends Component {
     state = {
-        posts:          [],
-        isPostFetching: false,
+        posts:            [],
+        isPostFetching:   false,
+        isPostmanVisible: true,
     }
 
     componentDidMount() {
@@ -159,22 +165,27 @@ export default class Feed extends Component {
         );
     }
 
-    _animatePostmanEnter = (target, isEntering) => {
-        const width = target.offsetWidth;
-        const initialStyle = { opacity: 0, right: -width };
+    _animatePostman = (target, isEntering) => {
+        const initialStyle = { opacity: 0, right: -250 };
         const endStyle = { opacity: 1, right: 30 };
 
         fromTo(
             target,
-            1,
+            timeouts.POSTMAN / 1000,
             isEntering ? initialStyle : endStyle,
             isEntering ? endStyle : initialStyle,
         );
     }
 
+    _togglePostman = () => {
+        this.setState(({ isPostmanVisible }) => ({
+            isPostmanVisible: !isPostmanVisible,
+        }));
+    }
+
     render() {
         const { feed } = Styles;
-        const { posts, isPostFetching } = this.state;
+        const { posts, isPostFetching, isPostmanVisible } = this.state;
         const postsJSX = posts.map((post) => (
             <Catcher key = { post.id }>
                 <Post
@@ -193,16 +204,17 @@ export default class Feed extends Component {
                 <Transition
                     appear
                     in
-                    timeout = { 1000 }
+                    timeout = { timeouts.COMPOSER }
                     onEnter = { this._animateComposerEnter } >
                     <Composer createPost = { this._createPost } />
                 </Transition>
                 <Transition
                     appear
-                    in
-                    timeout = { 1000 }
-                    onEnter = { (target) => this._animatePostmanEnter(target, true) }
-                    onEntered = { (target) => setTimeout(() => this._animatePostmanEnter(target, false), 5000) } >
+                    in = { isPostmanVisible }
+                    timeout = { timeouts.POSTMAN }
+                    onEnter = { (target) => this._animatePostman(target, isPostmanVisible) }
+                    onEntered = { () => setTimeout(this._togglePostman, 5000) }
+                    onExit = { (target) => this._animatePostman(target, isPostmanVisible) } >
                     <Postman />
                 </Transition>
                 { postsJSX }
