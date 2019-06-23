@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Transition } from 'react-transition-group';
+import { Transition, CSSTransition, TransitionGroup } from 'react-transition-group';
 import { fromTo } from 'gsap';
 
 // Instruments
@@ -173,17 +173,28 @@ export default class Feed extends Component {
     }
 
     render() {
-        const { feed } = Styles;
+        const { feed, postInStart, postInEnd } = Styles;
         const { posts, isPostFetching } = this.state;
         const postsJSX = posts.map((post) => (
-            <Catcher key = { post.id }>
-                <Post
-                    { ...post }
-                    deletePost = { this._deletePost }
-                    likePost = { this._likePost }
-                    likes = { post.likes }
-                />
-            </Catcher>
+            <CSSTransition
+                classNames = {{
+                    enter:       postInStart,
+                    enterActive: postInEnd,
+                }}
+                key = { post.id }
+                timeout = {{
+                    enter: 500,
+                    exit:  400,
+                }}>
+                <Catcher>
+                    <Post
+                        { ...post }
+                        deletePost = { this._deletePost }
+                        likePost = { this._likePost }
+                        likes = { post.likes }
+                    />
+                </Catcher>
+            </CSSTransition>
         ));
 
         return (
@@ -205,7 +216,9 @@ export default class Feed extends Component {
                     onEntered = { (target) => setTimeout(() => this._animatePostmanEnter(target, false), 5000) } >
                     <Postman />
                 </Transition>
-                { postsJSX }
+                <TransitionGroup>
+                    { postsJSX }
+                </TransitionGroup>
             </section>
         );
     }
