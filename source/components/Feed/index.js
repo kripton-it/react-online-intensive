@@ -159,24 +159,16 @@ export default class Feed extends Component {
         );
     }
 
-    _animatePostmanEnter = (target) => {
+    _animatePostmanEnter = (target, isEntering) => {
         const width = target.offsetWidth;
         const initialStyle = { opacity: 0, right: -width };
         const endStyle = { opacity: 1, right: 30 };
-        const reverseTransition = () => fromTo(
-            target,
-            1,
-            endStyle,
-            initialStyle,
-        );
+
         fromTo(
             target,
             1,
-            initialStyle,
-            {
-                ...endStyle,
-                onComplete: () => setTimeout(reverseTransition, 5000),
-            },
+            isEntering ? initialStyle : endStyle,
+            isEntering ? endStyle : initialStyle,
         );
     }
 
@@ -209,7 +201,8 @@ export default class Feed extends Component {
                     appear
                     in
                     timeout = { 1000 }
-                    onEnter = { this._animatePostmanEnter }>
+                    onEnter = { (target) => this._animatePostmanEnter(target, true) }
+                    onEntered = { (target) => setTimeout(() => this._animatePostmanEnter(target, false), 5000) } >
                     <Postman />
                 </Transition>
                 { postsJSX }
