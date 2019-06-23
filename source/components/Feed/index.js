@@ -155,7 +155,28 @@ export default class Feed extends Component {
             target,
             1,
             { opacity: 0, rotationX: 50 },
-            { opacity: 1, rotationX: 0, onComplete: () => console.log('completed') },
+            { opacity: 1, rotationX: 0 },
+        );
+    }
+
+    _animatePostmanEnter = (target) => {
+        const width = target.offsetWidth;
+        const initialStyle = { opacity: 0, right: -width };
+        const endStyle = { opacity: 1, right: 30 };
+        const reverseTransition = () => fromTo(
+            target,
+            1,
+            endStyle,
+            initialStyle,
+        );
+        fromTo(
+            target,
+            1,
+            initialStyle,
+            {
+                ...endStyle,
+                onComplete: () => setTimeout(reverseTransition, 5000),
+            },
         );
     }
 
@@ -184,7 +205,13 @@ export default class Feed extends Component {
                     onEnter = { this._animateComposerEnter } >
                     <Composer createPost = { this._createPost } />
                 </Transition>
-                <Postman />
+                <Transition
+                    appear
+                    in
+                    timeout = { 1000 }
+                    onEnter = { this._animatePostmanEnter }>
+                    <Postman />
+                </Transition>
                 { postsJSX }
             </section>
         );
