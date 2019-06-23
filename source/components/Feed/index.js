@@ -173,13 +173,15 @@ export default class Feed extends Component {
     }
 
     render() {
-        const { feed, postInStart, postInEnd } = Styles;
+        const { feed, postInStart, postInEnd, postOutStart, postOutEnd } = Styles;
         const { posts, isPostFetching } = this.state;
         const postsJSX = posts.map((post) => (
             <CSSTransition
                 classNames = {{
                     enter:       postInStart,
                     enterActive: postInEnd,
+                    exit:        postOutStart,
+                    exitActive:  postOutEnd,
                 }}
                 key = { post.id }
                 timeout = {{
