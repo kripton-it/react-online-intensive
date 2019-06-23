@@ -14,6 +14,7 @@ import Composer from '../Composer';
 import Post from '../Post';
 import StatusBar from '../StatusBar';
 import Spinner from '../Spinner';
+import Postman from '../Postman';
 
 @withProfile
 export default class Feed extends Component {
@@ -154,7 +155,7 @@ export default class Feed extends Component {
             target,
             1,
             { opacity: 0, rotationX: 50 },
-            { opacity: 1, rotationX: 0 },
+            { opacity: 1, rotationX: 0, onComplete: () => console.log('completed') },
         );
     }
 
@@ -183,6 +184,7 @@ export default class Feed extends Component {
                     onEnter = { this._animateComposerEnter } >
                     <Composer createPost = { this._createPost } />
                 </Transition>
+                <Postman />
                 { postsJSX }
             </section>
         );

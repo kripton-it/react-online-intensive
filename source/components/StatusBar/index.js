@@ -39,8 +39,8 @@ export default class StatusBar extends Component {
         fromTo(
             target,
             1,
-            { opacity: 0, y: -50 },
-            { opacity: 1, y: 0 },
+            { opacity: 0 },
+            { opacity: 1 },
         );
     }
 
