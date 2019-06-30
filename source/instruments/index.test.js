@@ -1,5 +1,5 @@
 // Core
-import { sum, delay, getUniqueID } from './';
+import { sum, delay, getUniqueID, getFullApiUrl } from './';
 
 // jest.setTimeout(15000);
 // дефолтный таймаут = 5000 мс
@@ -56,5 +56,23 @@ describe('getUniqueID:', () => {
         expect(getUniqueID()).toHaveLength(15);
         expect(getUniqueID(5)).toHaveLength(5);
         expect(getUniqueID(10)).toHaveLength(10);
+    });
+});
+
+describe('getFullApiUrl:', () => {
+    test('getFullApiUrl function should be a function', () => {
+        expect(getFullApiUrl).toBeInstanceOf(Function);
+    });
+
+    test('getFullApiUrl function should throw, when called with non-string type as first argument', () => {
+        expect(() => getFullApiUrl(5, 'hello')).toThrow();
+    });
+
+    test('getFullApiUrl function should throw, when called with non-string type as second argument', () => {
+        expect(() => getFullApiUrl('hello', 5)).toThrow();
+    });
+
+    test('getFullApiUrl function should return a string, combined from it\'s arguments', () => {
+        expect(getFullApiUrl('hello', 'world')).toBe('hello/world');
     });
 });
