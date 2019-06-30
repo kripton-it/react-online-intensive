@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { func } from 'prop-types';
+import { func, string } from 'prop-types';
 
 //Instruments
 import Styles from './styles.m.css';
@@ -7,10 +7,13 @@ import Styles from './styles.m.css';
 // Components
 import { withProfile } from './../../HOC/with-profile';
 
-@withProfile
-export default class Composer extends Component {
+// @withProfile
+// export default class Composer extends Component {
+export class Composer extends Component {
     static propTypes = {
-        createPost: func.isRequired,
+        createPost:           func.isRequired,
+        avatar:               string.isRequired,
+        currentUserFirstName: string.isRequired,
     }
 
     state = {
@@ -80,5 +83,5 @@ export default class Composer extends Component {
     }
 }
 
-// export default withProfile(Composer);
+export default withProfile(Composer);
 // декоратор @withProfile в 10-й строке - полная альтернатива
