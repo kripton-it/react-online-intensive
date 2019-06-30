@@ -15,6 +15,7 @@ import Post from '../Post';
 import StatusBar from '../StatusBar';
 import Spinner from '../Spinner';
 import Postman from '../Postman';
+import Counter from '../Counter';
 
 @withProfile
 export default class Feed extends Component {
@@ -210,12 +211,16 @@ export default class Feed extends Component {
                     onEnter = { this._animateComposerEnter } >
                     <Composer createPost = { this._createPost } />
                 </Transition>
+                <Counter count = { posts.length } />
                 <Transition
                     appear
                     in
                     timeout = { 1000 }
                     onEnter = { (target) => this._animatePostmanEnter(target, true) }
-                    onEntered = { (target) => setTimeout(() => this._animatePostmanEnter(target, false), 5000) } >
+                    onEntered = { (target) => setTimeout(
+                        () => this._animatePostmanEnter(target, false),
+                        5000,
+                    ) } >
                     <Postman />
                 </Transition>
                 <TransitionGroup>

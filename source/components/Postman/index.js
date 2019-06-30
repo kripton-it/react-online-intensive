@@ -18,6 +18,6 @@ const Postman = ({ avatar, currentUserFirstName }) => {
             <span>Welcome online, { currentUserFirstName }</span>
         </section>
     );
-}
+};
 
 export default withProfile(Postman);

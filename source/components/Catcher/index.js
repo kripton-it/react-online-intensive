@@ -27,6 +27,8 @@ export default class Catcher extends Component {
         const { error } = this.state;
         const { catcher } = Styles;
 
-        return error ? <section className = { catcher }>An error occured</section> : this.props.children;
+        return error ? (
+            <section className = { catcher }>An error occured</section>
+        ) : this.props.children;
     }
 }

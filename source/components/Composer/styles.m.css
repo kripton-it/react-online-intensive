@@ -33,10 +33,10 @@
         letter-spacing: 1px;
         cursor: pointer;
 
-      &:hover {
-          background-color: var(--paletteColor7);
-      }
-  }
+        &:hover {
+            background-color: var(--paletteColor7);
+        }
+    }
 
     & textarea {
         width: 410px;
