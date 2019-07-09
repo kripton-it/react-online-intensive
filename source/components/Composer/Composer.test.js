@@ -1,11 +1,7 @@
 // Core
 import React from 'react';
 import { mount } from 'enzyme';
-// import { mount, configure } from 'enzyme';
-// import Adapter from 'enzyme-adapter-react-16';
 import { Composer } from './';
-
-// configure({ adapter: new Adapter() });
 
 //Instruments
 import avatar from '../../theme/assets/lisa.png';
@@ -81,7 +77,6 @@ describe('component <Composer>:', () => {
                 value: comment,
             },
         });
-        // expect(_updateCommentSpy).toHaveBeenCalledTimes(1);
         expect(result.state()).toEqual(updatedState);
         expect(result.find('textarea').text()).toBe(comment);
     });
@@ -97,8 +92,6 @@ describe('component <Composer>:', () => {
             comment,
         });
         result.find('form').simulate('submit');
-        // expect(props.createPost.mock.calls.length).toBe(1);
-        // expect(props.createPost).toHaveBeenCalled();
         expect(props.createPost).toHaveBeenCalledTimes(1);
     });
 

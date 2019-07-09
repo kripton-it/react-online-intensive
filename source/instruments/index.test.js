@@ -1,10 +1,6 @@
 // Core
 import { sum, delay, getUniqueID, getFullApiUrl } from './';
 
-// jest.setTimeout(15000);
-// дефолтный таймаут = 5000 мс
-// изменить при необходимости тестирования асинхронных функций с большой задержкой
-
 describe('sum:', () => {
     test('sum function should be a function', () => {
         expect(sum).toBeInstanceOf(Function);
@@ -32,14 +28,6 @@ describe('delay:', () => {
     test('delay function should return a resolved promise', async () => {
         await expect(delay()).resolves.toBeUndefined();
     });
-
-    /*test('delay function should return a resolved promise', async () => {
-        await expect(delay(15000)).resolves.toBe('A resolved promise 🚦');
-    });
-
-    test('delay function should return a resolved promise', async () => {
-        await expect(delay()).resolves.toBe('A resolved promise 🚦');
-    });*/
 });
 
 describe('getUniqueID:', () => {
