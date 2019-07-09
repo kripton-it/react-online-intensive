@@ -12,7 +12,6 @@ import Catcher from './../../components/Catcher';
 import { withProfile } from './../../HOC/with-profile';
 import Composer from '../Composer';
 import Post from '../Post';
-import StatusBar from '../StatusBar';
 import Spinner from '../Spinner';
 import Postman from '../Postman';
 import Counter from '../Counter';
@@ -203,7 +202,6 @@ export default class Feed extends Component {
         return (
             <section className = { feed }>
                 <Spinner isSpinning = { isPostFetching } />
-                <StatusBar />
                 <Transition
                     appear
                     in

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import cx from 'classnames';
 import { Transition } from 'react-transition-group';
 import { fromTo } from 'gsap';
@@ -67,15 +68,16 @@ export default class StatusBar extends Component {
                         <div>{ statusMessage }</div>
                         <span />
                     </div>
-                    <button>
+                    <Link to = '/profile'>
                         <img
                             alt = 'Avatar'
                             src = { avatar }
                         />
                         <span>{currentUserFirstName}</span>
-                        &nbsp;
-                        <span>{currentUserLastName}</span>
-                    </button>
+                    </Link>
+                    <Link to = '/feed'>
+                        Feed
+                    </Link>
                 </section>
             </Transition>
         );
