@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 
 // Instruments
 import Styles from './styles.m.css';
@@ -10,7 +11,11 @@ import { withProfile } from './../../HOC/with-profile';
 export default class Profile extends Component {
     render() {
         const { profile } = Styles;
-        const { currentUserFirstName, currentUserLastName, avatar } = this.props;
+        const { currentUserFirstName, currentUserLastName, avatar, isLoggedIn } = this.props;
+
+        if (!isLoggedIn) {
+            return <Redirect to = '/login' />;
+        }
 
         return (
             <section className = { profile }>

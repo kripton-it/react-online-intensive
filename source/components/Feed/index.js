@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import { Transition, CSSTransition, TransitionGroup } from 'react-transition-group';
 import { fromTo } from 'gsap';
 
@@ -175,6 +176,7 @@ export default class Feed extends Component {
     render() {
         const { feed, postInStart, postInEnd, postOutStart, postOutEnd } = Styles;
         const { posts, isPostFetching } = this.state;
+        const { isLoggedIn } = this.props;
         const postsJSX = posts.map((post) => (
             <CSSTransition
                 classNames = {{
@@ -198,6 +200,10 @@ export default class Feed extends Component {
                 </Catcher>
             </CSSTransition>
         ));
+
+        if (!isLoggedIn) {
+            return <Redirect to = '/login' />;
+        }
 
         return (
             <section className = { feed }>

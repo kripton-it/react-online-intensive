@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import cx from 'classnames';
 import { Transition } from 'react-transition-group';
 import { fromTo } from 'gsap';
@@ -12,6 +12,7 @@ import { socket } from '../../socket/init';
 import { withProfile } from './../../HOC/with-profile';
 
 @withProfile
+@withRouter
 export default class StatusBar extends Component {
     state = {
         isOnline: false,
@@ -45,9 +46,14 @@ export default class StatusBar extends Component {
         );
     }
 
+    handleClick = () => {
+        this.props.toggleLogin();
+        this.props.history.goBack();
+    };
+
     render() {
         const { statusBar, status, online, offline } = Styles;
-        const { avatar, currentUserFirstName, currentUserLastName } = this.props;
+        const { avatar, currentUserFirstName, isLoggedIn, toggleLogin } = this.props;
         const { isOnline } = this.state;
 
         const statusStyle = cx(status, {
@@ -57,6 +63,25 @@ export default class StatusBar extends Component {
 
         const statusMessage = isOnline ? 'Online' : 'Offline';
 
+        const statusBadge = (
+            <div className = { statusStyle }>
+                <div>{ statusMessage }</div>
+                <span />
+            </div>
+        );
+
+        const profileLink = (
+            <Link to = '/profile'>
+                <img
+                    alt = 'Avatar'
+                    src = { avatar }
+                />
+                <span>{currentUserFirstName}</span>
+            </Link>
+        );
+
+        const feedLink = <Link to = '/feed'>Feed</Link>;
+
         return (
             <Transition
                 appear
@@ -64,20 +89,18 @@ export default class StatusBar extends Component {
                 timeout = { 1000 }
                 onEnter = { this._animateStatusBarEnter } >
                 <section className = { statusBar }>
-                    <div className = { statusStyle }>
-                        <div>{ statusMessage }</div>
-                        <span />
-                    </div>
-                    <Link to = '/profile'>
-                        <img
-                            alt = 'Avatar'
-                            src = { avatar }
-                        />
-                        <span>{currentUserFirstName}</span>
+                    { isLoggedIn ? statusBadge : null }
+                    { isLoggedIn ? profileLink : null }
+                    { isLoggedIn ? feedLink : null }
+                    <Link to = '/public'>
+                        Public
                     </Link>
-                    <Link to = '/feed'>
-                        Feed
+                    <Link to = '/private'>
+                        Private
                     </Link>
+                    <button onClick = { this.handleClick }>
+                        {isLoggedIn ? 'Выйти' : 'Войти'}
+                    </button>
                 </section>
             </Transition>
         );
