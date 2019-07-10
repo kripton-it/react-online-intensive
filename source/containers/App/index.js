@@ -85,7 +85,7 @@ export default class App extends Component {
                             component = { Login }
                             path = '/login'
                         />
-                        <Redirect to = '/login' />
+                        <Redirect to = { `/${isLoggedIn ? 'profile' : 'login'}` } />
                     </Switch>
                 </Provider>
             </Catcher>

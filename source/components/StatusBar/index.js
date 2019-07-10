@@ -46,11 +46,6 @@ export default class StatusBar extends Component {
         );
     }
 
-    handleClick = () => {
-        this.props.toggleLogin();
-        this.props.history.goBack();
-    };
-
     render() {
         const { statusBar, status, online, offline } = Styles;
         const { avatar, currentUserFirstName, isLoggedIn, toggleLogin } = this.props;
@@ -98,7 +93,7 @@ export default class StatusBar extends Component {
                     <Link to = '/private'>
                         Private
                     </Link>
-                    <button onClick = { this.handleClick }>
+                    <button onClick = { toggleLogin }>
                         {isLoggedIn ? 'Выйти' : 'Войти'}
                     </button>
                 </section>
