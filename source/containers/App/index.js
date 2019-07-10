@@ -31,8 +31,14 @@ const userOptions = {
 @hot(module)
 export default class App extends Component {
     state = {
-        isLoggedIn: false,
-        options:    defaultOptions,
+        isLoggedIn: JSON.parse(window.localStorage.getItem('isLoggedIn') || 'false'),
+        options:    JSON.parse(window.localStorage.getItem('options') || JSON.stringify(defaultOptions)),
+    }
+
+    updateLocalStorage = () => {
+        const { isLoggedIn, options } = this.state;
+        window.localStorage.setItem('isLoggedIn', isLoggedIn);
+        window.localStorage.setItem('options', JSON.stringify(options));
     }
 
     toggleLogin = () => {
@@ -48,7 +54,7 @@ export default class App extends Component {
                 isLoggedIn: false,
                 options:    defaultOptions,
             };
-        });
+        }, this.updateLocalStorage);
     }
 
     render() {
